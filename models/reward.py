@@ -3,6 +3,7 @@ from transformers import AutoModelForSequenceClassification, AutoTokenizer
 from time import perf_counter
 
 def add_reward_to_samples(samples, model_path="RLHFlow/ArmoRM-Llama3-8B-v0.1", device="cuda", batch_size=16):
+    samples = samples.copy()
     # Initialize the model and tokenizer
     model = AutoModelForSequenceClassification.from_pretrained(
         model_path, device_map=device, trust_remote_code=True, torch_dtype=torch.bfloat16
@@ -38,6 +39,8 @@ def add_reward_to_samples(samples, model_path="RLHFlow/ArmoRM-Llama3-8B-v0.1", d
                 index += 1
             sample["rewards"] = sample_rewards
 
+    return samples
+
 # Example usage
 if __name__ == "__main__":
     samples = [
@@ -45,7 +48,7 @@ if __name__ == "__main__":
     ]
 
     start = perf_counter()
-    add_single_reward_to_samples(samples, batch_size=128)
+    outputs = add_single_reward_to_samples(samples, batch_size=128)
     end = perf_counter()
     print(end - start)
 

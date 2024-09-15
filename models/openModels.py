@@ -4,6 +4,7 @@ import torch
 import os
 import gc
 from dotenv import load_dotenv
+from huggingface_hub import hf_hub_download
 
 
 def load_gguf(model_name, gguf):
