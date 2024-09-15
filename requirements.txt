@@ -1,0 +1,6 @@
+transformers==4.44.2
+vllm==0.6.1.post2
+torch==2.4.0
+accelerate==0.34.2
+datasets==3.0.0
+python-dotenv==1.0.1
