@@ -3,32 +3,30 @@ from models.reward import add_reward_to_samples
 from data.prompts import get_prompts
 from dotenv import load_dotenv
 from datasets import Dataset
+from config import Config
 
 
-def generate_dataset(save_path="data/gemma9b", model_name="google/gemma-2-9b-it", gguf=None):
+def generate_dataset(config):
     load_dotenv()
     prompts = get_prompts(sample_size=10000, seed=42)
 
     outputs = generate_text_gemma(prompts, 
-                            model_name=model_name,
-                            gguf=gguf,
-                            n=5,
-                            temperature=0.7,
-                            top_p=0.9,
-                            top_k=45,
-                            max_tokens=8192,
-                            device="cuda")
-    outputs = add_reward_to_samples(outputs, model_path="RLHFlow/ArmoRM-Llama3-8B-v0.1", device="cuda", batch_size=128)
+                            model_name=config.model_name,
+                            gguf=config.gguf,
+                            n=config.n,
+                            temperature=config.temperature,
+                            top_p=config.top_p,
+                            top_k=config.top_k,
+                            max_tokens=config.max_tokens,
+                            device=config.device)
+    outputs = add_reward_to_samples(outputs, model_path=config.reward_model_path, device=config.device, batch_size=128)
     
     return outputs
 
 
 if __name__ == "__main__":
-    model_name="bartowski/gemma-2-9b-it-GGUF"
-    gguf="gemma-2-9b-it-Q4_K_L.gguf"
-    data = generate_dataset(save_path="data/gemma2_9b_4bit", 
-                            model_name="google/gemma-2-9b-it", 
-                            gguf=None)
+    config = Config()
+    data = generate_dataset(config)
 
     dataset = Dataset.from_dict(data)
     dataset.push_to_hub("konductor/gemma2-SimPO-v1")
