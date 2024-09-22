@@ -40,7 +40,7 @@ def generate_text_gemma(
     top_k: int = 45,
     max_tokens: int = 1024,
     device: str = "cuda",
-    gpu_memory_utilization=0.7
+    gpu_memory_utilization: float=0.7,
 ) -> List[Dict[str, Any]]:
     """
     Generates text outputs using the Gemma 2-9B model.
@@ -76,7 +76,12 @@ def generate_text_gemma(
 
     try:
         # Initialize the LLM with specified GPU memory utilization
-        llm = LLM(model=model_path, gpu_memory_utilization=gpu_memory_utilization, device=device)
+        llm = LLM(model=model_path, 
+        gpu_memory_utilization=gpu_memory_utilization, 
+        device=device,
+        quantization="bitsandbytes",
+        load_format="bitsandbytes")
+        
     except Exception as e:
         raise RuntimeError(f"Failed to initialize LLM: {e}")
 

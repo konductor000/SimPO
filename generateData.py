@@ -35,4 +35,4 @@ if __name__ == "__main__":
     data = generate_dataset(config)
     
     dataset = Dataset.from_list(data)
-    dataset.push_to_hub("konductor/gemma2-SimPO-v1")
+    dataset.push_to_hub(config.dataset_name)

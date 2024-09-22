@@ -3,8 +3,8 @@ from dataclasses import dataclass
 @dataclass
 class Config:
     save_path: str = "data/gemma9b"
-    model_name: str = "google/gemma-2-9b-it"
-    gpu_memory_utilization = 0.88
+    model_name: str = "google/gemma-2-27b-it" # "google/gemma-2-9b-it"
+    gpu_memory_utilization = 0.85
     gguf_filename: str = None  
     sample_size: int = 10000
     seed: int = 42
@@ -15,3 +15,4 @@ class Config:
     max_tokens: int = 8192
     device: str = "cuda"
     reward_model_path: str = "RLHFlow/ArmoRM-Llama3-8B-v0.1"
+    dataset_name: str="konductor/gemma27b-4bit-SimPO"
