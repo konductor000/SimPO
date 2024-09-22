@@ -4,10 +4,11 @@ from dataclasses import dataclass
 class Config:
     save_path: str = "data/gemma9b"
     model_name: str = "google/gemma-2-9b-it"
-    gguf: str = None  
+    gpu_memory_utilization = 0.88
+    gguf_filename: str = None  
     sample_size: int = 10000
     seed: int = 42
-    n: int = 5
+    num_generations: int = 5
     temperature: float = 0.7
     top_p: float = 0.9
     top_k: int = 45

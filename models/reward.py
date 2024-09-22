@@ -22,6 +22,7 @@ def load_model_and_tokenizer(model_path: str, device: str) -> (AutoModelForSeque
             trust_remote_code=True,
             torch_dtype=torch.bfloat16 if device == "cuda" else torch.float32
         )
+        model.eval()
         tokenizer = AutoTokenizer.from_pretrained(model_path, use_fast=True)
         return model, tokenizer
     except Exception as e:
